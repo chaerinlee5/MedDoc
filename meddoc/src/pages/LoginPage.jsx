@@ -11,7 +11,7 @@ const LoginPage = () => {
               med<span className="text-black">Doc</span>
             </h1>
     
-            <div className="w-full max-w-2xl absolute bottom-0 left-12">
+            <div className="w-5/6 absolute bottom-0 right-0">
               <img
                 src={DRex}
                 alt="medDoc Mascot"
