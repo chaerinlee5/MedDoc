@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react"; 
 
 const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md p-8 w-full">
       <h2 className="text-3xl font-bold mb-2 text-center">Get Started Now</h2>
@@ -36,15 +43,25 @@ const LoginForm = () => {
           placeholder="Email address"
           className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
         />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-        />
-        
+
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+          />
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+          >
+            {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+          </button>
+        </div>
+
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition-colors"
+          className="w-full bg-[#879B87] text-white py-3 rounded-md hover:bg-[#b5d8b5] transition-colors"
         >
           Log In
         </button>
