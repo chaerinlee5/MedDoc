@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage.jsx";
-import Chat from "./pages/Chat.jsx";  // Example component for after login
+import Chat from "./pages/Chat.jsx";
 
 const App = () => {
   return (
