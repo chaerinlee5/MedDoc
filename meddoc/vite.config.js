@@ -17,7 +17,7 @@ export default defineConfig({
   },
   define: {
     global: 'globalThis', // Ensures global is defined
-    'process.env': {},    // Ensures process.env is defined
+    'process.env': process.env,    // Ensures process.env is defined
   },
   optimizeDeps: {
     include: ['crypto', 'stream', 'buffer', 'process', 'util', 'assert'],

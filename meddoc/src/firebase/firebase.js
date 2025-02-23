@@ -1,11 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-
-const dotenv = require("dotenv");
-dotenv.config();
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: process.env.apiKey,
+  apiKey: "AIzaSyCco9W2gdDozjphKuKPeLos4WGnvzUDg1Y",
   authDomain: "meddoc-30a86.firebaseapp.com",
   projectId: "meddoc-30a86",
   storageBucket: "meddoc-30a86.firebasestorage.app",
