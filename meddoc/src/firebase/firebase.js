@@ -13,7 +13,14 @@ const firebaseConfig = {
   measurementId: "G-CFTNMLQRTZ"
 };
 
-const app = initializeApp(firebaseConfig);
+let app;
+
+try {
+  app = initializeApp(firebaseConfig);
+} catch (e) {
+  app = getApp(); // Get the already initialized app if it exists
+}
+
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);

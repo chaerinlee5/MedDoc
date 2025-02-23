@@ -33,7 +33,7 @@ const LoginPage = () => {
 
       setSuccessMessage("Account created successfully! Redirecting to login...");
       setTimeout(() => {
-        navigate("/login");  // Redirect to login page after 2 seconds
+        navigate("/");  // Redirect to login page after 2 seconds
       }, 2000);
     } catch (error) {
       setError(error.message);
