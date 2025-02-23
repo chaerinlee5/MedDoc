@@ -1,110 +1,66 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";  // React Router v6+ for navigation
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, setDoc, doc } from "firebase/firestore"; // For Firestore
+import React, { useState } from 'react';
+import '../Chat.css';
 
-const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");  // Only for sign-up
-  const [error, setError] = useState("");  // For error handling
-  const [successMessage, setSuccessMessage] = useState("");  // Success message state
-  const [isSignUp, setIsSignUp] = useState(false);  // To toggle between login and sign-up
-  const navigate = useNavigate();  // React Router v6+ for navigation
+const Chat = () => {
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
 
-  const auth = getAuth();
-  const db = getFirestore();
+  const handleInputChange = (event) => {
+    setNewMessage(event.target.value);
+    event.target.style.height = "auto";
+    event.target.style.height = `${event.target.scrollHeight}px`;
+  };
 
-  // Handle Sign-Up
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Create user with email and password
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      // Store additional user data (e.g., username) in Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        username: username,
-        email: email,
-        createdAt: new Date(),
-      });
-
-      setSuccessMessage("Account created successfully! Redirecting to login...");
-      setTimeout(() => {
-        navigate("/login");  // Redirect to login page after 2 seconds
-      }, 2000);
-    } catch (error) {
-      setError(error.message);
-      setSuccessMessage("");  // Clear success message if error occurs
+  const handleSendMessage = () => {
+    if (newMessage.trim() !== "") {
+      setMessages([...messages, newMessage]);
+      setNewMessage("");
     }
   };
 
-  // Handle Login
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Sign in with email and password
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      
-      // After successful login, navigate to another page (e.g., Dashboard)
-      navigate("/chat");  // Replace with your desired route
-    } catch (error) {
-      setError(error.message);
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleSendMessage();
     }
   };
 
   return (
-    <div>
-      <h2>{isSignUp ? "Sign Up" : "Login"}</h2>
+    <div className="chat-container">
+      {/* Header Section */}
+      <div className="chat-header">
+        <h1 className="chat-title">
+          <span className="med">med</span><span className="doc">Doc</span>
+        </h1>
+      </div>
 
-      {/* Display success message if sign-up is successful */}
-      {successMessage && <p className="text-green-500">{successMessage}</p>}
-      {/* Display error message */}
-      {error && <p className="text-red-500">{error}</p>}
-
-      {/* Conditionally render Sign-Up or Login Form */}
-      <form onSubmit={isSignUp ? handleSignUp : handleLogin}>
-        {isSignUp && (
-          <div>
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+      {/* Chat Messages */}
+      <div className="chat-messages">
+        {messages.map((msg, index) => (
+          <div key={index} className="message-bubble">
+            {msg}
           </div>
-        )}
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">{isSignUp ? "Sign Up" : "Login"}</button>
-      </form>
+        ))}
+      </div>
 
-      {/* Toggle between login and sign-up */}
-      <div>
-        <button onClick={() => setIsSignUp(!isSignUp)}>
-          {isSignUp ? "Already have an account? Login" : "Don't have an account? Sign Up"}
+      {/* Chat Input */}
+      <div className="chat-input">
+        <textarea
+          className="message-input"
+          value={newMessage}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          placeholder="Type a new message..."
+          rows={1}
+        />
+        <button onClick={handleSendMessage} className="send-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#879B87">
+            <path d="M4 2 L20 12 L4 22 Z" />
+          </svg>
         </button>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default Chat;
