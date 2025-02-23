@@ -27,8 +27,12 @@ const LoginPage = () => {
         createdAt: new Date(),
       });
 
-      setSuccessMessage("Account created successfully! Redirecting to login...");
-      setTimeout(() => navigate("/"), 2000);
+      setSuccessMessage("Account created successfully!");
+      setEmail("");
+      setPassword("");
+      setUsername("");
+      setIsSignUp(!isSignUp);
+      setTimeout(() => setSuccessMessage(""), 2000);
     } catch (error) {
       setError(error.message);
       setSuccessMessage("");
